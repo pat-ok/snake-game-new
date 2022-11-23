@@ -184,14 +184,51 @@ public class Snake {
             // piece of food on the board
 
             // Choose a random direction to move in
-            final int choice = new Random().nextInt(possibleMoves.size());
-            final String move = possibleMoves.get(choice);
+//            final int choice = new Random().nextInt(possibleMoves.size());
+//            final String move = possibleMoves.get(choice);
+//
+//            LOG.info("MOVE {}", move);
+//
+//            Map<String, String> response = new HashMap<>();
+//            response.put("move", move);
+//            return response;
 
-            LOG.info("MOVE {}", move);
+
+            ArrayList<String> smarterMoves = getSmarterMoves(new Board(moveRequest));
+            final int choice = new Random().nextInt(smarterMoves.size());
+            final String move = smarterMoves.get(choice);
 
             Map<String, String> response = new HashMap<>();
             response.put("move", move);
             return response;
+        }
+
+        // Given a board, list the moves that are not immediately dangerous
+        // Exclude moves that will be in own or opponent snake bodies and out of bounds
+        public ArrayList<String> getSmarterMoves(Board board) {
+            ArrayList<String> smarterMoves = new ArrayList<>(Arrays.asList("up", "down", "left", "right"));
+            Point head = board.getYou().getHead();
+            Point moveUp = new Point(head.getX(), head.getY() + 1);
+            Point moveDown = new Point(head.getX(), head.getY() - 1);
+            Point moveLeft = new Point(head.getX() - 1, head.getY());
+            Point moveRight = new Point(head.getX() + 1, head.getY());
+
+            if (moveUp.getX() > 10 || moveUp.getX() < 0 || moveUp.getY() > 10 || moveUp.getY() < 0 || board.getOccupied().contains(moveUp)) {
+                smarterMoves.remove("up");
+            }
+
+            if (moveDown.getX() > 10 || moveDown.getX() < 0 || moveDown.getY() > 10 || moveDown.getY() < 0 || board.getOccupied().contains(moveDown)) {
+                smarterMoves.remove("down");
+            }
+
+            if (moveLeft.getX() > 10 || moveLeft.getX() < 0 || moveLeft.getY() > 10 || moveLeft.getY() < 0 || board.getOccupied().contains(moveLeft)) {
+                smarterMoves.remove("left");
+            }
+
+            if (moveRight.getX() > 10 || moveRight.getX() < 0 || moveRight.getY() > 10 || moveRight.getY() < 0 || board.getOccupied().contains(moveRight)) {
+                smarterMoves.remove("right");
+            }
+            return smarterMoves;
         }
 
         /**
