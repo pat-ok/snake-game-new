@@ -205,6 +205,7 @@ public class Snake {
             return response;
         }
 
+
         // Given a board, list the moves that are not immediately dangerous
         // Exclude moves that will be in own or opponent snake bodies and out of bounds
         public ArrayList<String> getSmarterMoves(Board board) {
@@ -215,19 +216,19 @@ public class Snake {
             Point moveLeft = new Point(head.getX() - 1, head.getY());
             Point moveRight = new Point(head.getX() + 1, head.getY());
 
-            if (moveUp.getX() > 10 || moveUp.getX() < 0 || moveUp.getY() > 10 || moveUp.getY() < 0 || board.getOccupied().contains(moveUp)) {
+            if (moveUp.getY() > 10 || board.getOccupied().contains(moveUp)) {
                 smarterMoves.remove("up");
             }
 
-            if (moveDown.getX() > 10 || moveDown.getX() < 0 || moveDown.getY() > 10 || moveDown.getY() < 0 || board.getOccupied().contains(moveDown)) {
+            if (moveDown.getY() < 0 || board.getOccupied().contains(moveDown)) {
                 smarterMoves.remove("down");
             }
 
-            if (moveLeft.getX() > 10 || moveLeft.getX() < 0 || moveLeft.getY() > 10 || moveLeft.getY() < 0 || board.getOccupied().contains(moveLeft)) {
+            if (moveLeft.getX() < 0 || board.getOccupied().contains(moveLeft)) {
                 smarterMoves.remove("left");
             }
 
-            if (moveRight.getX() > 10 || moveRight.getX() < 0 || moveRight.getY() > 10 || moveRight.getY() < 0 || board.getOccupied().contains(moveRight)) {
+            if (moveRight.getX() > 10 || board.getOccupied().contains(moveRight)) {
                 smarterMoves.remove("right");
             }
             return smarterMoves;
