@@ -198,8 +198,10 @@ public class Snake {
             final int choice = new Random().nextInt(smarterMoves.size());
             final String move = smarterMoves.get(choice);
 
+            System.out.println(smarterMoves);
+
             Map<String, String> response = new HashMap<>();
-            response.put("move", move);
+            response.put("move", "left");
             return response;
         }
 
